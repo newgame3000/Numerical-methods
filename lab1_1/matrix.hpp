@@ -34,10 +34,6 @@ public:
         }
     }
 
-    matrix Inverse() {
-        
-    }
-
     void Print() {
         int max = 10000000;
         for (uint i = 0; i < data.size(); ++i) {
