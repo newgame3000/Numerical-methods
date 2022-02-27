@@ -5,7 +5,7 @@
 using namespace std;
 
 int swaps = 0;
-//vector<pair<int, int>> sw;
+vector<pair<int, int>> sw;
 
 void SwapVector(vector<double> &b, int i, int j) {
     int k = b[i];
@@ -24,7 +24,7 @@ void Maximum(matrix<double> &u, matrix<double> &l, vector<double> &b, int n, int
     }
 
     if (index != j) {
-       // sw.push_back(make_pair(j, index));
+        sw.push_back(make_pair(j, index));
         swaps += 1;
         SwapVector(b, j, index);
         l.Swap_rows(j, index);
@@ -131,36 +131,31 @@ int main(){
     cout << det << endl;
 
     //Обратная матрица
-    matrix<double> m(n, n);
+    cout << "Обратная матрица\n";
+    matrix<double> inv(n, n);
     b = vector<double>(n);
     b[0] = 1;
+
+    for (uint i = 0; i < sw.size(); ++i) {
+        SwapVector(b, sw[i].first, sw[i].second);
+    }
+
     Solution_Lz(z, l, b, n);
     Solution_Ux(x, u, z, n);
-    m.Fill_in_the_column(x, 0);
+    inv.Fill_in_the_column(x, 0);
 
     for (int i = 1; i < n; ++i) {
-        b[i - 1] = 0;
+        b = vector<double>(n);
         b[i] = 1;
 
-        for (int j = 0; j < n; ++j) {
-            cout << b[j] << " ";
+         for (uint i = 0; i < sw.size(); ++i) {
+            SwapVector(b, sw[i].first, sw[i].second);
         }
-        cout << endl;
 
         Solution_Lz(z, l, b, n);
         Solution_Ux(x, u, z, n);
-        m.Fill_in_the_column(x, i);
+        inv.Fill_in_the_column(x, i);
     }
 
-    // for (uint i = 0; i < sw.size(); ++i) {
-    //     m.Swap_columns(sw[i].first, sw[i].second);
-    //     // m.Print();
-    //     // sleep(1);
-    // }
-
-    m.Print();
-
-    matrix<double> inv(debug * m);
     inv.Print();
-
 }
