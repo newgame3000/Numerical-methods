@@ -22,17 +22,16 @@ int main() {
 
     p[0] = -m[1] / m[0];
     q[0] = d[0] / m[0];
+    
     int k = 1;
     for (uint i = 2; i < m.size() - 2; i += 3) { //m[i] - a, m[i + 1] - b, m[i + 2] - c
         p[k] = - m[i + 2] / (m[i + 1] + m[i] * p[k - 1]);
         q[k] = (d[k] - m[i] * q[k - 1])/(m[i + 1] + m[i] * p[k - 1]);
         k += 1;
     }
-    cout << m[n - 2] << m[n - 1] << endl;
+
     p[k] = 0;
     q[k] = (d[k] - m[m.size() - 2] * q[k - 1]) / (m[m.size() - 1] + m[m.size() - 2] * p[m.size() - 1]);
-
-    cout << q[k] << endl;
 
     x[n - 1] = q[n - 1];
 
