@@ -17,7 +17,7 @@ int main() {
     }
 
     for (int i = 0; i < n; ++i) {
-        cin >>d[i];
+        cin >> d[i];
     }    
 
     p[0] = -m[1] / m[0];
@@ -31,7 +31,7 @@ int main() {
     }
 
     p[k] = 0;
-    q[k] = (d[k] - m[m.size() - 2] * q[k - 1]) / (m[m.size() - 1] + m[m.size() - 2] * p[m.size() - 1]);
+    q[k] = (d[k] - m[m.size() - 2] * q[k - 1]) / (m[m.size() - 1] + m[m.size() - 2] * p[k - 1]);
 
     x[n - 1] = q[n - 1];
 

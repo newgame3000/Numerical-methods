@@ -82,8 +82,6 @@ int main(){
     matrix<double> u(n, n);
     u.Read();
 
-    matrix<double> debug(u);
-
     vector<double> b(n);
     for (int i = 0; i < n; ++i) {
         cin >> b[i];
@@ -147,7 +145,7 @@ int main(){
         b = vector<double>(n);
         b[i] = 1;
 
-         for (uint i = 0; i < sw.size(); ++i) {
+        for (uint i = 0; i < sw.size(); ++i) {
             SwapVector(b, sw[i].first, sw[i].second);
         }
 
