@@ -40,10 +40,7 @@ void Jacobi(matrix<double> m, vector<double> &b, matrix<double>& jac, vector<dou
     }
 }
 
-void Iterations (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps) {
-    b = beta;
-    double norm = alpha.Norm();
-    double epsk = eps + 1;
+void SimpleIterations (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm) {
     while(epsk > eps) {
         vector<double> b_0 = b;
         b = beta + alpha * b_0;
@@ -51,7 +48,22 @@ void Iterations (matrix<double> alpha, vector<double> beta, vector<double> &b, d
     }
 }
 
-int Degree_eps(double eps) {
+
+void Seidel (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm, int n) {
+    while(epsk > eps) {
+        vector<double> b_0 = b;
+        for (int i = 0; i < n; ++i) {
+            b[i] = 0;
+            for (int j = 0; j < n; ++j) {
+                b[i] += alpha[i][j] * b[j];
+            }
+            b[i] += beta[i];
+        }
+        epsk = (norm / (1 - norm)) * NormVector(b - b_0);
+    }
+}
+
+int DegreeEps(double eps) {
     int k = 0;
     while(eps <= 1) {
         eps *= 10;
@@ -77,7 +89,6 @@ int main(){
 
     Jacobi(m, b, jac, beta, n);
 
-    cout << "Метод Якоби\n";
     cout << "Матрица α\n";
     jac.Print();
     cout << "Вектор β\n";
@@ -93,18 +104,36 @@ int main(){
     double eps;
     cin >> eps;
 
-    Iterations(jac, beta, b, eps);
+    int k = DegreeEps(eps);
+    cout.precision(k + 1);
 
-    int k = Degree_eps(eps);
-    cout.precision(k);
+    b = beta;
+    double epsk = eps + 1;
+    SimpleIterations(jac, beta, b, eps, epsk, norm);
+
+    cout << "Метод Якоби (простых итераций)\n";
+
+    for (int i = 0; i < n; ++i) {
+        cout << b[i] << " ";
+    }
+    cout << endl;
+
+    b = beta;
+    epsk = eps + 1;
+
+    Seidel(jac, beta, b, eps, epsk, norm, n);
+
+    cout << "Метод Зейделя\n";
+
+    for (int i = 0; i < n; ++i) {
+        cout << b[i] << " ";
+    }
+    cout << endl;
 
     //-8.0 2.0 4.0 5.0 
 
     //vector<double> debug{-8.0, 2.0, 4.0, 5.0 };
 
 
-    for (int i = 0; i < n; ++i) {
-        cout << b[i] << " ";
-    }
-    cout << endl;
+    
 }
