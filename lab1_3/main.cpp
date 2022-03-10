@@ -128,12 +128,5 @@ int main(){
     for (int i = 0; i < n; ++i) {
         cout << b[i] << " ";
     }
-    cout << endl;
-
-    //-8.0 2.0 4.0 5.0 
-
-    //vector<double> debug{-8.0, 2.0, 4.0, 5.0 };
-
-
-    
+    cout << endl;  
 }
