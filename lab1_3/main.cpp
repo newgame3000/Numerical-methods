@@ -40,8 +40,9 @@ void Jacobi(matrix<double> m, vector<double> &b, matrix<double>& jac, vector<dou
     }
 }
 
-void SimpleIterations (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm) {
+void SimpleIterations (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm, int &count) {
     while(epsk > eps) {
+        count += 1;
         vector<double> b_0 = b;
         b = beta + alpha * b_0;
         epsk = (norm / (1 - norm)) * NormVector(b - b_0);
@@ -49,8 +50,9 @@ void SimpleIterations (matrix<double> alpha, vector<double> beta, vector<double>
 }
 
 
-void Seidel (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm, int n) {
+void Seidel (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm, int n, int &count) {
     while(epsk > eps) {
+        count += 1;
         vector<double> b_0 = b;
         for (int i = 0; i < n; ++i) {
             b[i] = 0;
@@ -109,7 +111,9 @@ int main(){
 
     b = beta;
     double epsk = eps + 1;
-    SimpleIterations(jac, beta, b, eps, epsk, norm);
+
+    int count = 0;
+    SimpleIterations(jac, beta, b, eps, epsk, norm, count);
 
     cout << "Метод Якоби (простых итераций)\n";
 
@@ -118,10 +122,14 @@ int main(){
     }
     cout << endl;
 
+    cout << "Количество итераций: " << count << endl;
+
+
     b = beta;
     epsk = eps + 1;
 
-    Seidel(jac, beta, b, eps, epsk, norm, n);
+    count = 0;
+    Seidel(jac, beta, b, eps, epsk, norm, n, count);
 
     cout << "Метод Зейделя\n";
 
@@ -129,4 +137,6 @@ int main(){
         cout << b[i] << " ";
     }
     cout << endl;  
+
+    cout << "Количество итераций: " << count << endl;
 }
