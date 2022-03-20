@@ -45,12 +45,16 @@ void SimpleIterations (matrix<double> alpha, vector<double> beta, vector<double>
         count += 1;
         vector<double> b_0 = b;
         b = beta + alpha * b_0;
-        epsk = (norm / (1 - norm)) * NormVector(b - b_0);
+        if (norm < 1) {
+            epsk = (norm / (1 - norm)) * NormVector(b - b_0);
+        } else {
+            epsk = NormVector(b - b_0);
+        }
     }
 }
 
 
-void Seidel (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm, int n, int &count) {
+void Seidel (matrix<double> alpha, vector<double> beta, vector<double> &b, double eps, double epsk, double norm, int n, int &count, double cnorm) {
     while(epsk > eps) {
         count += 1;
         vector<double> b_0 = b;
@@ -61,7 +65,11 @@ void Seidel (matrix<double> alpha, vector<double> beta, vector<double> &b, doubl
             }
             b[i] += beta[i];
         }
-        epsk = (norm / (1 - norm)) * NormVector(b - b_0);
+        if (norm < 1) {
+            epsk = (cnorm / (1 - norm)) * NormVector(b - b_0);
+        } else {
+            epsk = NormVector(b - b_0);
+        }   
     }
 }
 
@@ -124,12 +132,22 @@ int main(){
 
     cout << "Количество итераций: " << count << endl;
 
-
     b = beta;
     epsk = eps + 1;
 
     count = 0;
-    Seidel(jac, beta, b, eps, epsk, norm, n, count);
+
+    matrix<double> c = jac;
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            c[i][j] = 0;
+        }
+    }
+
+    double cnorm = c.Norm();
+
+    Seidel(jac, beta, b, eps, epsk, norm, n, count, cnorm);
 
     cout << "Метод Зейделя\n";
 

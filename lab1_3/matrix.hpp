@@ -35,15 +35,6 @@ public:
     }
 
     void Print() {
-        int max = 10000000;
-        for (uint i = 0; i < data.size(); ++i) {
-            for (uint j = 0; j < data[i].size(); ++j) {
-                if (abs(data[i][j] > max)) {
-
-                }
-            }
-        }
-
         cout.precision(3);
         cout << fixed;
         for (uint i = 0; i < data.size(); ++i) {
