@@ -64,8 +64,10 @@ void Calculation_lambda(matrix<double> m, vector<complex<double>> &lambda, int n
     for (int i = 0; i < n; ++i) {
         if ((i == n - 1) || (abs(m[i + 1][i]) < eps)) {
             lambda[i] = m[i][i];
-        } else {            pair<complex<double>, complex<double>> k = Calculation_lambda_complex(m, i, con, eps);
+        } else {            
 
+            pair<complex<double>, complex<double>> k = Calculation_lambda_complex(m, i, con, eps);
+            
             if (!con) {
                 lambda[i] = k.first;
                 i += 1;
@@ -122,7 +124,7 @@ int main(){
     int n;
     cin >> n;
 
-	matrix<double> m(n, n);
+    matrix<double> m(n, n);
     m.Read();
 
     double eps;
