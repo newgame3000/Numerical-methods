@@ -1,6 +1,7 @@
 #include <iostream>
 #include "matrix.hpp"
 #include <complex>
+#include <unistd.h>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ vector<double> Calculation_eps1(matrix<double> m, int n) {
     vector<double> sum(n);
     for (int i = 0; i < n; ++i) {
         for (int j = i + 1; j < n; ++j) {
-            sum[i] += m[i][j] * m[i][j];
+            sum[i] += m[j][i] * m[j][i];
         }
         sum[i] = sqrt(sum[i]);
     }
@@ -30,7 +31,7 @@ vector<double> Calculation_eps2(matrix<double> m, int n) {
     vector<double> sum(n);
     for (int i = 0; i < n; ++i) {
         for (int j = i + 2; j < n; ++j) {
-            sum[i] += m[i][j] * m[i][j];
+            sum[i] += m[j][i] * m[j][i];
         }
         sum[i] = sqrt(sum[i]);
     }
@@ -94,6 +95,7 @@ void QR_algorithm(matrix<double> m, int n, double eps, vector<complex<double>> &
         m.QR(q, r);
         m = r * q;
 
+
         if ((NormVector(Calculation_eps1(m, n)) < eps) || (NormVector(Calculation_eps2(m, n)) < eps)) {
             flag12 = false;
         }
@@ -109,7 +111,7 @@ void QR_algorithm(matrix<double> m, int n, double eps, vector<complex<double>> &
         vector<double> eps3(n);
 
         for (int i = 0; i < n; ++i) {
-            eps3[i] = abs(abs(lambda[i]) - abs(oldlambda[i]));   
+            eps3[i] = abs(abs(lambda[i]) - abs(oldlambda[i]));
         }
 
         if (NormVector(eps3) < eps) {
