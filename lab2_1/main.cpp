@@ -29,6 +29,9 @@ double Simple_iterations(double l, double r, int & count, double eps) {
     double oldx = l;
     double lambda = Sign(f_1(oldx)) / (max(abs(f_1(l)), abs(f_1(r))));
     double q = max(abs(1 - lambda * f_1(l)), abs(1 - lambda * f_1(r)));
+
+    cout << "q = " << q <<  endl;
+
     q = q / (1 - q);
     double epsk;
 
@@ -69,8 +72,8 @@ int DegreeEps(double eps) {
 int main(){
     double eps;
     cin >> eps;
-    double l = -1;
-    double r = 0;
+    double l = 1;
+    double r = 2;
 
     int count = 0;
 
@@ -84,7 +87,7 @@ int main(){
 
     count = 0;
 
-    x  = Newtons_method(l, count, eps);
+    x  = Newtons_method(r, count, eps);
     cout << "Метод Ньютона\nРешение\n";
     cout << x << endl << "Количество итераций\n" << count << endl;
 
