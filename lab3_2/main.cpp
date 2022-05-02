@@ -115,9 +115,17 @@ int main() {
         cin >> y[i];
     }
 
+    double tx;
+    cin >> tx;
+    int j = 0;
+
     vector<polynomial<double>> spline = Spline(x, y, n);
 
     for (int i = 0; i < n - 1; ++i) {
+
+        if (tx >= x[i] && tx <= x[i + 1]) {
+            j = i;
+        }
 
         cout << "x = [" << x[i] << " " << x[i + 1] << "]\n";
 
@@ -125,4 +133,8 @@ int main() {
 
         cout << endl;
     }
+
+    cout << "Значение в точке x = " << tx << " : " << spline[j](tx) << endl;
+
+
 }
