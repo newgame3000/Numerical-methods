@@ -58,6 +58,6 @@ int main() {
 
     cout << "Первая производная: " << FirstDerivative(x, y, tx)  << endl;
 
-    cout << "Вторая производная: "<< SecondDerivative(x, y, tx)  << endl;
+    cout << "Вторая производная: " << SecondDerivative(x, y, tx)  << endl;
 
 }
