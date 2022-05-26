@@ -36,7 +36,6 @@ double SimpsonMethod(double a, double b, double h) {
         p.LagrangePolynomial(xx, y);
 
         res += p.Integrate(x, x + h);
-        //cout << res << endl;
         x += h;
         //res.Print();
     }

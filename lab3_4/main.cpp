@@ -17,7 +17,7 @@ double FirstDerivative(vector<double> x, vector<double> y, double tx) {
     for (uint i = 0; i < x.size(); ++i) {
 
         if (tx >= x[i] && tx <= x[i + 1]) {
-            j = i;
+            j = i - 1;
         }
     }
 
@@ -34,7 +34,7 @@ double SecondDerivative(vector<double> x, vector<double> y, double tx) {
     for (uint i = 0; i < x.size(); ++i) {
 
         if (tx >= x[i] && tx <= x[i + 1]) {
-            j = i;
+            j = i - 1;
         }
     }
 
