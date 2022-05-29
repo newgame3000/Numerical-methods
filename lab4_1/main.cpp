@@ -17,7 +17,7 @@ function<double(double, double)> z_2{
 
 
 int a = 0, b = 1;
-int y_0 = 1, z_0 = 2, x_0 = 0;
+int y_0 = 1, z_0 = 2;
 
 vector<double> euler(double h) {
     vector<double> u;
@@ -158,7 +158,6 @@ double RungeRombergMethodEuler(vector<double> I, double h, double r) {
 
     }
 
-
     return res;
 }
 
@@ -174,7 +173,6 @@ double RungeRombergMethodRunge(vector<double> I, double h, double r) {
 
     }
 
-
     return res;
 }
 
@@ -183,7 +181,6 @@ double RungeRombergMethodAdams(vector<vector <double>> I, double h, double r) {
     vector<double> z;
 
     vector<double> u  = runge(h * 2, z);
-
 
     vector<vector <double>> first_four(4, vector<double> (3));
 
@@ -207,7 +204,6 @@ double RungeRombergMethodAdams(vector<vector <double>> I, double h, double r) {
         res = max(res, abs(abs(Ir[i][1] - I[j][1]) / (pow(r, 4) - 1)));
 
     }
-
 
     return res;
 }

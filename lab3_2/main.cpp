@@ -55,7 +55,6 @@ vector<polynomial<double>> Spline(vector<double> x, vector<double> y, int n) {
 
     for (int i = 2; i < n - 2; ++i) {
         m[j] = h[i - 2];
-        //cout << m[j] << endl;
         m[j + 1] = 2 * (h[i - 2] + h[i - 1]);
         m[j + 2] = h[i - 1];
         d2[i - 1] = 3 * ((y[i + 1] - y[i]) / h[i - 1] - (y[i] - y[i - 1]) / h[i - 2]);
