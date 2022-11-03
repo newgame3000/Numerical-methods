@@ -84,7 +84,7 @@ vector<vector<double>> threeDiagSolve(vector<vector<double>> u, int n, int k, do
             m[mi + 1] = -1 - 2 * a * tau / (h * h) + c * tau;
             m[mi + 2] = (a * tau / (h * h)  + b * tau / (2 * h));
             mi += 3;
-            d[i] = -u[i][j - 1] - tau * f(h * i, k * tau);
+            d[i] = -u[i][j - 1] - tau * f(h * i, j * tau);
             
         }
 
@@ -107,14 +107,14 @@ vector<vector<double>> threeDiagSolve(vector<vector<double>> u, int n, int k, do
             m[0] = -(1 + h * h / (2 * a * tau) - c * h * h / (2 * a)) / coeff * alpha + betta;
             m[1] = alpha / coeff;
 
-            d[0] = gamma0(a, b, c, (j + 1) * tau) - (u[0][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, k * tau) * h * h / (2 * a)) / coeff;
+            d[0] = gamma0(a, b, c, (j + 1) * tau) - (u[0][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, j * tau) * h * h / (2 * a)) / coeff;
 
 
             coeff = -h - b * h * h / (2 * a);
             m[m.size() - 2] = alpha / coeff;
             m[m.size() - 1] = -(1 + h * h / (2 * a * tau) - c * h * h / (2 * a)) / coeff * alpha + betta;
 
-            d[n - 1] = gamma1(a, b, c, (j + 1) * tau) - (u[n - 1][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, k * tau) * h * h / (2 * a)) / coeff;
+            d[n - 1] = gamma1(a, b, c, (j + 1) * tau) - (u[n - 1][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, j * tau) * h * h / (2 * a)) / coeff;
         }
 
         d = threeDiag(n, m, d);
@@ -134,7 +134,7 @@ vector<vector<double>> finiteDifferenceMethod(vector<vector<double>> u, int n, i
         for (int i = 1; i < n - 1; ++i) {
             u[i][j + 1] = tau * (a * (u[i - 1][j] - 2 * u[i][j] + u[i + 1][j]) / (h * h) + 
                           b * (u[i + 1][j] - u[i - 1][j]) / (2 * h) + 
-                          c * u[i][j] + f(h * i, k * tau)) + u[i][j];
+                          c * u[i][j] + f(h * i, j * tau)) + u[i][j];
 
             if (type == 0) {
                 u[0][j + 1] = (gamma0(a, b, c, (j + 1) * tau) - alpha / h * u[1][j + 1]) / (-alpha / h + betta);
@@ -148,11 +148,11 @@ vector<vector<double>> finiteDifferenceMethod(vector<vector<double>> u, int n, i
 
             if (type == 2) {
                 double coeff = h - b * h * h / (2 * a);
-                u[0][j + 1] = (gamma0(a, b, c, (j + 1) * tau) - alpha / coeff * u[1][j + 1] - (alpha * h * h / (2 * tau * a) * u[0][j] + alpha *  f(0, k * tau) * h * h / (2 * a)) / coeff) / 
+                u[0][j + 1] = (gamma0(a, b, c, (j + 1) * tau) - alpha / coeff * u[1][j + 1] - (alpha * h * h / (2 * tau * a) * u[0][j] + alpha *  f(0, j * tau) * h * h / (2 * a)) / coeff) / 
                               (-(1 + h * h / (2 * a * tau) - c * h * h / (2 * a)) / coeff * alpha + betta);
 
                 coeff = -h - b * h * h / (2 * a);
-                u[n - 1][j + 1] = (gamma1(a, b, c, (j + 1) * tau) - alpha / coeff * u[n - 2][j + 1] - (alpha * h * h / (2 * tau * a) * u[n - 1][j] + alpha *  f(0, k * tau) * h * h / (2 * a)) / coeff) / 
+                u[n - 1][j + 1] = (gamma1(a, b, c, (j + 1) * tau) - alpha / coeff * u[n - 2][j + 1] - (alpha * h * h / (2 * tau * a) * u[n - 1][j] + alpha *  f(0, j * tau) * h * h / (2 * a)) / coeff) / 
                               (-(1 + h * h / (2 * a * tau) - c * h * h / (2 * a)) / coeff * alpha + betta);
             }
         }
@@ -189,7 +189,7 @@ vector<vector<double>> combinedMethod(vector<vector<double>> u, int n, int k, do
             mi += 3;
 
 
-            d[i] = -u[i][j - 1]  - tau * (theta * f(h * i, k * tau) + (1 - theta) * ((u[i - 1][j - 1] - 2 * u[i][j - 1] + u[i + 1][j - 1]) / (h * h) * a  + 
+            d[i] = -u[i][j - 1]  - tau * (theta * f(h * i, j * tau) + (1 - theta) * ((u[i - 1][j - 1] - 2 * u[i][j - 1] + u[i + 1][j - 1]) / (h * h) * a  + 
                 (u[i + 1][j - 1] - u[i - 1][j - 1]) / (2 * h) * b + 
                 c * u[i][j - 1]));
         }
@@ -213,14 +213,14 @@ vector<vector<double>> combinedMethod(vector<vector<double>> u, int n, int k, do
             m[0] = -(1 + h * h / (2 * a * tau) - c * h * h / (2 * a)) / coeff * alpha + betta;
             m[1] = alpha / coeff;
 
-            d[0] = gamma0(a, b, c, (j + 1) * tau) - (u[0][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, k * tau) * h * h / (2 * a)) / coeff;
+            d[0] = gamma0(a, b, c, (j + 1) * tau) - (u[0][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, j * tau) * h * h / (2 * a)) / coeff;
 
 
             coeff = -h - b * h * h / (2 * a);
             m[m.size() - 2] = alpha / coeff;
             m[m.size() - 1] = -(1 + h * h / (2 * a * tau) - c * h * h / (2 * a)) / coeff * alpha + betta;
 
-            d[n - 1] = gamma1(a, b, c, (j + 1) * tau) - (u[n - 1][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, k * tau) * h * h / (2 * a)) / coeff;
+            d[n - 1] = gamma1(a, b, c, (j + 1) * tau) - (u[n - 1][j - 1] * alpha * h * h / (2 * a * tau) + alpha * f(0, j * tau) * h * h / (2 * a)) / coeff;
         }
 
         d = threeDiag(n, m, d);
